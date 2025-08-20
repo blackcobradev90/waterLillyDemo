@@ -9,12 +9,14 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { login } from "@/services/api"
+import { useRouter } from "next/navigation"
 
 export default function LoginPage() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
+    const router = useRouter()
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -24,8 +26,10 @@ export default function LoginPage() {
         try {
             const response = await login({ email, password })
             console.log("Login successful:", response.data)
+            await router.push('/form')
             // Handle successful login, e.g., redirect to dashboard
         } catch (error: any) {
+            console.log(error)
             setError(error.response?.data?.message || "An error occurred during login.")
         } finally {
             setIsLoading(false)

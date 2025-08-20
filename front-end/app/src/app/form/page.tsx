@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox"
 import { Progress } from "@/components/ui/progress"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import {submitForm} from "@/services/api";
 
 const userFormSchema = z.object({
     firstName: z.string().min(1, "First name is required"),
@@ -88,7 +89,7 @@ export default function MultiStepForm() {
     const onSubmit = async (data: UserFormData) => {
         setIsSubmitting(true)
         // Simulate API call
-        await new Promise((resolve) => setTimeout(resolve, 2000))
+        await submitForm(data)
         console.log("Form submitted:", data)
         setIsSubmitting(false)
     }
