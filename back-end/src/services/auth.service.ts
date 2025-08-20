@@ -6,16 +6,22 @@ const prisma = new PrismaClient();
 
 export const signup = async (userData: any) => {
   const { name, email, password, age } = userData;
+  console.log(name, email, password, age);
   const hashedPassword = await hashPassword(password);
-  const user = await prisma.user.create({
-    data: {
-      name,
-      email,
-      password: hashedPassword,
-      age,
-    },
-  });
-  return user;
+  try{
+      const user = await prisma.user.create({
+          data: {
+              name,
+              email,
+              password: hashedPassword,
+              age,
+          },
+      });
+      return user;
+  }
+  catch(err){
+      console.log(err)
+  }
 };
 
 export const login = async (credentials: any) => {

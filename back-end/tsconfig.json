@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",                        // Output modern JS
+    "module": "CommonJS",                      // Node.js default module system
+    "rootDir": "src",                          // Source files folder
+    "outDir": "dist",                          // Compiled output folder
+    "strict": true,                            // Enable strict type checking
+    "esModuleInterop": true,                   // Allow default imports from CommonJS
+    "forceConsistentCasingInFileNames": true,  // Enforce file name casing
+    "skipLibCheck": true,                      // Skip type checking in node_modules
+    "moduleResolution": "node",                // Resolve modules like Node.js
+    "resolveJsonModule": true,                 // Allow importing JSON files
+    "types": ["node"],                         // Include Node.js type definitions
+    "allowSyntheticDefaultImports": true       // Support default imports
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
+
+// pretty much same for every project

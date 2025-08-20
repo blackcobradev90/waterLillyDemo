@@ -8,7 +8,7 @@ export const validate = (schema: z.ZodObject<any, any>) => {
       next();
     } catch (error) {
       if (error instanceof ZodError) {
-        res.status(400).json({ error: error.errors });
+        res.status(400).json({ error: error.message });
       } else {
         res.status(500).json({ error: 'Internal server error' });
       }
