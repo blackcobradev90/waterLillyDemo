@@ -19,7 +19,7 @@ export default function Home() {
                     <Link href="/signup" className="block">
                         <Button
                             variant="outline"
-                            className="w-full border-accent text-accent hover:bg-accent hover:text-accent-foreground bg-grey"
+                            className="w-full border-accent text-accent hover:bg-primary/90  text-primary-foreground bg-black"
                         >
                             Sign Up
                         </Button>

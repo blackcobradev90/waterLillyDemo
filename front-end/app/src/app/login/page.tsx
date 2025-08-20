@@ -8,21 +8,28 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { login } from "@/services/api"
 
 export default function LoginPage() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState<string | null>(null)
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setIsLoading(true)
+        setError(null)
 
-        // Simulate API call
-        await new Promise((resolve) => setTimeout(resolve, 1000))
-
-        console.log("Login attempt:", { email, password })
-        setIsLoading(false)
+        try {
+            const response = await login({ email, password })
+            console.log("Login successful:", response.data)
+            // Handle successful login, e.g., redirect to dashboard
+        } catch (error: any) {
+            setError(error.response?.data?.message || "An error occurred during login.")
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     return (
@@ -69,6 +76,7 @@ export default function LoginPage() {
                                     className="bg-input border-border focus:ring-ring"
                                 />
                             </div>
+                            {error && <p className="text-red-500 text-sm">{error}</p>}
                         </CardContent>
 
                         <CardFooter className="flex flex-col space-y-4 mt-4">
@@ -84,7 +92,7 @@ export default function LoginPage() {
                                 Don't have an account?{" "}
                                 <Link
                                     href="/signup"
-                                    className="text-accent hover:text-accent/80 font-medium underline underline-offset-4"
+                                    className="text-primary hover:text-primary/80 font-medium underline underline-offset-4"
                                 >
                                     Sign up
                                 </Link>

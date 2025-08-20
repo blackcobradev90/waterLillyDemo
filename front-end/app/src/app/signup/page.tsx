@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { signup } from "@/services/api"
 
 export default function SignupPage() {
     const [name, setName] = useState("")
@@ -15,22 +16,28 @@ export default function SignupPage() {
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
     const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState<string | null>(null)
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
 
         if (password !== confirmPassword) {
-            alert("Passwords do not match")
+            setError("Passwords do not match")
             return
         }
 
         setIsLoading(true)
+        setError(null)
 
-        // Simulate API call
-        await new Promise((resolve) => setTimeout(resolve, 1000))
-
-        console.log("Signup attempt:", { name, email, password })
-        setIsLoading(false)
+        try {
+            const response = await signup({ name, email, password })
+            console.log("Signup successful:", response.data)
+            // Handle successful signup, e.g., redirect to login or dashboard
+        } catch (error: any) {
+            setError(error.response?.data?.message || "An error occurred during signup.")
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     return (
@@ -107,6 +114,7 @@ export default function SignupPage() {
                                     className="bg-input border-border focus:ring-ring"
                                 />
                             </div>
+                            {error && <p className="text-red-500 text-sm">{error}</p>}
                         </CardContent>
 
                         <CardFooter className="flex flex-col space-y-4 mt-4">
